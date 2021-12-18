@@ -1,0 +1,37 @@
+{
+  "name": "express-todo",
+  "version": "1.0.0",
+  "description": "a simple todo REST api with express and mongoDB",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avendesta/express-todo.git"
+  },
+  "keywords": [
+    "todo",
+    "express",
+    "api",
+    "mongoDB",
+    "mongoose",
+    "nodeJS",
+    "node",
+    "REST"
+  ],
+  "author": "avendesta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/avendesta/express-todo/issues"
+  },
+  "homepage": "https://github.com/avendesta/express-todo#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
