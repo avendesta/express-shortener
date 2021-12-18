@@ -1,12 +1,15 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const morgan = require('morgan')
+const config = require('./config')
+
 const app = express()
-const port = 3000
+const port = config.PORT
 
 app.use(morgan('tiny'))
 
-mongoose.connect('mongodb://localhost:27017/express-todo?readPreference=primary&appname=MongoDBCompass&directConnection=true&ssl=false')
+mongoose.connect(config.dbURL)
+
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name: String,
