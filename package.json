@@ -1,18 +1,20 @@
 {
-  "name": "express-todo",
+  "name": "express-shorner",
   "version": "1.0.0",
-  "description": "a simple todo REST api with express and mongoDB",
+  "description": "a simple url shortner REST api with express and mongoDB",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/avendesta/express-todo.git"
+    "url": "git+https://github.com/avendesta/express-shortner.git"
   },
   "keywords": [
-    "todo",
+    "url",
+    "shortner",
     "express",
     "api",
     "mongoDB",
@@ -24,9 +26,9 @@
   "author": "avendesta",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/avendesta/express-todo/issues"
+    "url": "https://github.com/avendesta/express-shortner/issues"
   },
-  "homepage": "https://github.com/avendesta/express-todo#readme",
+  "homepage": "https://github.com/avendesta/express-shortner#readme",
   "dependencies": {
     "express": "^4.17.2",
     "mongoose": "^6.1.2",
