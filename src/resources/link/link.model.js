@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const linkSchema = new mongoose.Schema({
   longUrl: String,
@@ -8,6 +8,6 @@ const linkSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
-});
+})
 
-exports.Link = mongoose.model("link", linkSchema);
+exports.Link = mongoose.model("link", linkSchema)
