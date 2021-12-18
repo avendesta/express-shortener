@@ -10,12 +10,12 @@ exports.addSample = (req, res) => {
 
   p1.save()
     .then((r) => console.log(r))
-    .catch((e) => console.error("Error ", e));
+    .catch((e) => console.error("Error ", e.message));
 
   res.json(p1);
 };
 
 exports.getSample = async (req, res) => {
-  const u1 = await User.findById("61be1a3a38280754f0d639cd");
+  const u1 = await User.findOne();
   res.json(u1);
 };

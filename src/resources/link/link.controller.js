@@ -13,8 +13,15 @@ exports.addSample = async (req, res) => {
 
   l1.save()
     .then((r) => console.log(r))
-    .catch((e) => console.error("Error ", e));
+    .catch((e) => console.error("Error ", e.message));
 
+  Link.findOne()
+    .populate("createdBy")
+    .exec((err, link) => {
+      console.log("Link shortened: ", link.shortUrl);
+      console.log("Link creator", link.createdBy);
+      // console.log(err.message);
+    });
   res.json(l1);
 };
 
