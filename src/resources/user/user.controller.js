@@ -12,13 +12,11 @@ exports.create = async (req, res) => {
     premium: req.body.premium,
   })
   const user = await User.findOne({ email: req.body.email }).exec()
-  console.info(user)
   if (user) res.status(409).json({ error: "User already exists in database!" })
   else {
-    newUser
-      .save()
-      .then(console.log)
-      .catch((e) => console.error(e.message))
+    newUser.save()
+    // .then(console.log)
+    // .catch((e) => console.error(e.message))
     res.status(201).json(newUser)
   }
 }

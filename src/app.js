@@ -17,7 +17,7 @@ app.disable("x-powered-by")
 const port = config.PORT
 
 // middlewares
-app.use(morgan("dev"))
+app.use(morgan("dev", { skip: (req, res) => process.env.NODE_ENV === "test" })) // dont log during testing
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
