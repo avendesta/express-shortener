@@ -7,6 +7,7 @@ const morgan = require("morgan")
 const config = require("./config")
 const userRouter = require("./resources/user/user.router")
 const linkRouter = require("./resources/link/link.router")
+const clickRouter = require("./resources/click/click.router")
 
 // initialization
 const app = express()
@@ -25,6 +26,8 @@ mongoose.connect(config.dbURL)
 // routes
 app.use("/user", userRouter)
 app.use("/link", linkRouter)
+app.use("/click", clickRouter)
+
 app.get("/", (req, res) => {
   res.json({ message: "hello" })
 })
