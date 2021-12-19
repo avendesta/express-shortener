@@ -8,6 +8,13 @@ const linkSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
+  clicks: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "click",
+      default: [],
+    },
+  ],
 })
 
 exports.Link = mongoose.model("link", linkSchema)

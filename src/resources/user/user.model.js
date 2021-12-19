@@ -4,7 +4,12 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   links: [
-    { type: mongoose.SchemaTypes.ObjectId, ref: "Link", required: false },
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "Link",
+      required: false,
+      default: [],
+    },
   ],
 })
 

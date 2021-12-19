@@ -7,9 +7,10 @@ exports.addSample = async (req, res) => {
   const l1 = new Link({
     _id: new mongoose.Types.ObjectId(),
     longUrl:
-      "https://github.com/FrontendMasters/api-design-node-v3/blob/master/src/resources/item/item.model.js",
-    shortUrl: "QWERTY",
+      "https://www.digitalocean.com/community/tutorials/test-a-node-restful-api-with-mocha-and-chai",
+    shortUrl: "A3B0DF",
     createdBy: (await User.findOne())._id,
+    click: [],
   })
 
   l1.save()
