@@ -8,6 +8,8 @@ exports.create = async (req, res) => {
     _id: new mongoose.Types.ObjectId(),
     email: req.body.email,
     password: req.body.password,
+    admin: req.body.admin,
+    premium: req.body.premium,
   })
   const user = await User.findOne({ email: req.body.email }).exec()
   console.info(user)
@@ -23,11 +25,6 @@ exports.create = async (req, res) => {
 
 // read all users from database using request parameter
 exports.read = async (req, res) => {
-  User.find({}, (err, data) => {
-    let allUsers = []
-    data.forEach((u) => {
-      allUsers.push(u.email)
-    })
-    res.json({ allUsers: allUsers })
-  })
+  const allUsers = await User.find({}).exec()
+  res.json(allUsers)
 }
