@@ -1,6 +1,6 @@
-const router = require("express").Router();
-const controller = require("./user.controller");
+const router = require("express").Router()
+const controller = require("./user.controller")
 
-router.route("/").post(controller.addSample).get(controller.getSample);
+router.route("/").post(controller.create).get(controller.read)
 
-module.exports = router;
+module.exports = router

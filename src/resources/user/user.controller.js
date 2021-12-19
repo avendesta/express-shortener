@@ -2,31 +2,32 @@ const mongoose = require("mongoose")
 const { User } = require("./user.model")
 const { Link } = require("./../link/link.model")
 
-// add sample user to database
-exports.addSample = async (req, res) => {
-  const p1 = new User({
+// create a user in database from request body
+exports.create = async (req, res) => {
+  const newUser = new User({
     _id: new mongoose.Types.ObjectId(),
-    email: "tam@rat.miu",
-    password: "tam rat",
-    links: [(await Link.findOne())._id],
+    email: req.body.email,
+    password: req.body.password,
   })
-  const p2 = new User({
-    _id: new mongoose.Types.ObjectId(),
-    email: "samuel@miu.edu",
-    password: "SamuelPassword1@",
-  })
-
-  p1.save()
-    .then((r) => console.log(r))
-    .catch((e) => console.error("Error ", e.message))
-  p2.save()
-    .then((r) => console.log(r))
-    .catch((e) => console.error("Error ", e.message))
-  res.json(p2)
+  const user = await User.findOne({ email: req.body.email }).exec()
+  console.info(user)
+  if (user) res.status(409).json({ error: "User already exists in database!" })
+  else {
+    newUser
+      .save()
+      .then(console.log)
+      .catch((e) => console.error(e.message))
+    res.status(201).json(newUser)
+  }
 }
 
-// fetch sample user from database
-exports.getSample = async (req, res) => {
-  const u1 = await User.findOne()
-  res.json(u1)
+// read all users from database using request parameter
+exports.read = async (req, res) => {
+  User.find({}, (err, data) => {
+    let allUsers = []
+    data.forEach((u) => {
+      allUsers.push(u.email)
+    })
+    res.json({ allUsers: allUsers })
+  })
 }

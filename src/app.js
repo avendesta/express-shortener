@@ -24,9 +24,9 @@ app.use(express.urlencoded({ extended: true }))
 mongoose.connect(config.dbURL)
 
 // routes
-app.use("/user", userRouter)
-app.use("/link", linkRouter)
-app.use("/click", clickRouter)
+app.use("/users", userRouter)
+app.use("/links", linkRouter)
+app.use("/clicks", clickRouter)
 
 app.get("/", (req, res) => {
   res.json({ message: "hello" })
