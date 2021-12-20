@@ -1,3 +1,4 @@
+const { secretKey } = require("../config")
 // Admin authorization
 exports.adminAuth = async (req, res, next) => {
   // authorization middleware -- begins
@@ -11,7 +12,7 @@ exports.adminAuth = async (req, res, next) => {
   // console.log("Token:", token)
   let payload
   try {
-    payload = await verify(token, "ThisIsMySecretToken")
+    payload = await verify(token, secretKey)
   } catch (e) {
     return res.status(401).json({ error: "Token not verified" })
   }
@@ -39,12 +40,12 @@ exports.userAuth = async (req, res, next) => {
   // console.log("Token:", token)
   let payload
   try {
-    payload = await verify(token, "ThisIsMySecretToken")
+    payload = await verify(token, secretKey)
   } catch (e) {
     return res.status(401).json({ error: "Token not verified" })
   }
   // authorization middleware -- ends
-  // is admin
+  // user exists
   if (!payload.email) {
     return res.status(666).json({ error: "Token doesn't have email info" })
   }
