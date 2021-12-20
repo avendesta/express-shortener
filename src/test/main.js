@@ -41,15 +41,15 @@ describe("users", () => {
   })
 
   /*
-   * Test the GET /users route with empty database
+   * Test the GET admin/users route with empty database
    */
-  describe("/GET /users", () => {
+  describe("/GET admin/users", () => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
     it("it should be an empty array", (done) => {
       chai
         .request(server)
-        .get("/users")
+        .get("/admin/users")
         .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200)
@@ -60,16 +60,16 @@ describe("users", () => {
     })
   })
   /*
-   * Test the POST /users route
+   * Test the POST admin/users route
    */
-  describe("/POST /users", () => {
+  describe("/POST /admin/users", () => {
     const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd" }
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
     it("it should add the a new user object to database", (done) => {
       chai
         .request(server)
-        .post("/users")
+        .post("/admin/users")
         .set({ Authorization: `Bearer ${token}` })
         .send(u1)
         .end((err, res) => {
@@ -83,15 +83,15 @@ describe("users", () => {
     })
   })
   /*
-   * Test the GET /users route
+   * Test the GET admin/users route
    */
-  describe("/GET /users", () => {
+  describe("/GET /admin/users", () => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
     it("it should be an array with a single user object", (done) => {
       chai
         .request(server)
-        .get("/users")
+        .get("/admin/users")
         .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200)

@@ -5,6 +5,7 @@ const morgan = require("morgan")
 
 // my module imports
 const config = require("./config")
+const adminRouter = require("./resources/admin/admin.router")
 const userRouter = require("./resources/user/user.router")
 const linkRouter = require("./resources/link/link.router")
 const clickRouter = require("./resources/click/click.router")
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }))
 mongoose.connect(config.dbURL)
 
 // routes
+app.use("/admin", adminRouter)
 app.use("/users", userRouter)
 app.use("/links", linkRouter)
 app.use("/clicks", clickRouter)
