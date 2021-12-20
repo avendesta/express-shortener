@@ -56,6 +56,23 @@ exports.create = async (req, res) => {
 
 // read all links from database
 exports.read = async (req, res) => {
-  const allLinks = await Link.find({}).exec()
+  // authorization middleware -- begins
+  const bearer = req.headers.authorization
+
+  if (!bearer || !bearer.startsWith("Bearer ")) {
+    return res.status(401).end()
+  }
+
+  const token = bearer.split("Bearer ")[1].trim()
+  // console.log("Token:", token)
+  let payload
+  try {
+    payload = await verify(token, "ThisIsMySecretToken")
+  } catch (e) {
+    return res.status(401).json({ error: "Token not verified" })
+  }
+  // authorization middleware -- begins
+
+  const allLinks = await Link.find({ email: payload.email }).exec()
   res.json(allLinks)
 }

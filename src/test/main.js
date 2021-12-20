@@ -67,7 +67,7 @@ describe("users", () => {
       chai
         .request(server)
         .post("/users")
-        .set(token, { type: "bearer" }) //token is actual token data
+        .set({ Authorization: `Bearer ${token}` })
         .send(u1)
         .end((err, res) => {
           if (err) done(err)
@@ -132,10 +132,13 @@ describe("links", () => {
    * Test the GET /links route with empty database
    */
   describe("/GET /links", () => {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwicGFzc3dvcmQiOiJvbmVIYXNQQGFzc3cwcmQiLCJpYXQiOjE2Mzk5NzAzNDJ9.uDtc9_UkCphGxP3jwOk3x6yeLkWNy-lyIiAKULYuMSU"
     it("it should be an empty array", (done) => {
       chai
         .request(server)
         .get("/links")
+        .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200)
           res.body.should.be.a("array")
@@ -177,10 +180,13 @@ describe("links", () => {
    * Test the GET /links route
    */
   describe("/GET /links", () => {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwiaWF0IjoxNjM5OTY5MDUwfQ.a7W85YegMwJBJjH3JJ42emoRTZ61ENIvHriff3VSvFk"
     it("it should be an array with a single link object", (done) => {
       chai
         .request(server)
         .get("/links")
+        .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200)
           res.body.should.be.a("array")
