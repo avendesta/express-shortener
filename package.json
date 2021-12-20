@@ -1,7 +1,7 @@
 {
   "name": "express-shorner",
   "version": "1.0.0",
-  "description": "a simple url shortner REST api with express and mongoDB",
+  "description": "a simple url shortener REST api with express and mongoDB",
   "main": "app.js",
   "scripts": {
     "start": "node src/app.js",
@@ -10,11 +10,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/avendesta/express-shortner.git"
+    "url": "git+https://github.com/avendesta/express-shortener.git"
   },
   "keywords": [
     "url",
-    "shortner",
+    "shortener",
     "express",
     "api",
     "mongoDB",
@@ -26,9 +26,9 @@
   "author": "avendesta",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/avendesta/express-shortner/issues"
+    "url": "https://github.com/avendesta/express-shortener/issues"
   },
-  "homepage": "https://github.com/avendesta/express-shortner#readme",
+  "homepage": "https://github.com/avendesta/express-shoretner#readme",
   "dependencies": {
     "express": "^4.17.2",
     "jsonwebtoken": "^8.5.1",

@@ -1,19 +1,19 @@
 const mongoose = require("mongoose")
 const { Link } = require("./link.model")
 const { User } = require("../user/user.model")
-const jwt = require("jsonwebtoken")
+const { sign, verify } = require("jsonwebtoken")
 
 // create a link in database from request body
 exports.create = async (req, res) => {
   // signing a payload for dev use
-  const accessToken = jwt.sign(
+  const accessToken = sign(
     {
       email: "five@gmail.com",
       password: "oneHasP@assw0rd",
     },
     "ThisIsMySecretToken"
   )
-  console.info("secret", accessToken)
+  // console.info("secret", accessToken)
 
   // verifying the user creating a link
   const bearer = req.headers.authorization
@@ -26,7 +26,7 @@ exports.create = async (req, res) => {
   // console.log("Token:", token)
   let payload
   try {
-    payload = await jwt.verify(token, "ThisIsMySecretToken")
+    payload = await verify(token, "ThisIsMySecretToken")
   } catch (e) {
     return res.status(401).json({ error: "Token not verified" })
   }
