@@ -44,10 +44,13 @@ describe("users", () => {
    * Test the GET /users route with empty database
    */
   describe("/GET /users", () => {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
     it("it should be an empty array", (done) => {
       chai
         .request(server)
         .get("/users")
+        .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200)
           res.body.should.be.a("array")
@@ -83,10 +86,13 @@ describe("users", () => {
    * Test the GET /users route
    */
   describe("/GET /users", () => {
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
     it("it should be an array with a single user object", (done) => {
       chai
         .request(server)
         .get("/users")
+        .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200)
           res.body.should.be.a("array")

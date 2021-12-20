@@ -28,13 +28,13 @@ exports.create = async (req, res) => {
   } catch (e) {
     return res.status(401).json({ error: "Token not verified" })
   }
-  // authorization middleware -- begins
+  // authorization middleware -- ends
   // is admin
-  // if (payload.admin === false) {
-  //   return res
-  //     .status(666)
-  //     .json({ error: "Not authorized: Only admins can read all users" })
-  // }
+  if (payload.admin != true) {
+    return res
+      .status(666)
+      .json({ error: "Not authorized: Only admins can read all users" })
+  }
   //
 
   const data = {
@@ -58,6 +58,30 @@ exports.create = async (req, res) => {
 
 // read all users from database
 exports.read = async (req, res) => {
+  // authorization middleware -- begins
+  const bearer = req.headers.authorization
+
+  if (!bearer || !bearer.startsWith("Bearer ")) {
+    return res.status(401).end()
+  }
+
+  const token = bearer.split("Bearer ")[1].trim()
+  // console.log("Token:", token)
+  let payload
+  try {
+    payload = await verify(token, "ThisIsMySecretToken")
+  } catch (e) {
+    return res.status(401).json({ error: "Token not verified" })
+  }
+  // authorization middleware -- ends
+  // is admin
+  if (payload.admin != true) {
+    return res
+      .status(666)
+      .json({ error: "Not authorized: Only admins can read all users" })
+  }
+  //
+
   const allUsers = await User.find({}).exec()
   res.json(allUsers)
 }
