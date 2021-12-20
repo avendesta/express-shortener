@@ -61,10 +61,13 @@ describe("users", () => {
    */
   describe("/POST /users", () => {
     const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd" }
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwicGFzc3dvcmQiOiJvbmVIYXNQQGFzc3cwcmQiLCJpYXQiOjE2Mzk5NzAzNDJ9.uDtc9_UkCphGxP3jwOk3x6yeLkWNy-lyIiAKULYuMSU"
     it("it should add the a new user object to database", (done) => {
       chai
         .request(server)
         .post("/users")
+        .set(token, { type: "bearer" }) //token is actual token data
         .send(u1)
         .end((err, res) => {
           if (err) done(err)
@@ -148,12 +151,16 @@ describe("links", () => {
     const l1 = {
       shortUrl: "ABCDEF",
       longUrl: "https://www.google.com/search?q=robots",
+      email: "five@gmail.com",
       // createdBy: await User.findOne().exec(),
     }
+    const token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwiaWF0IjoxNjM5OTY5MDUwfQ.a7W85YegMwJBJjH3JJ42emoRTZ61ENIvHriff3VSvFk"
     it("it should add the a new link object to database", (done) => {
       chai
         .request(server)
         .post("/links")
+        .set({ Authorization: `Bearer ${token}` })
         .send(l1)
         .end((err, res) => {
           if (err) done(err)

@@ -18,7 +18,8 @@ exports.create = async (req, res) => {
     await newUser.save()
     // .then(console.log)
     // .catch((e) => console.error(e.message))
-    res.status(201).json(await User.findOne({ id: newUser._id }).exec())
+    const response = await User.findOne({ id: newUser._id }).exec()
+    res.status(201).json(response)
   }
 }
 
