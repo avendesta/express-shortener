@@ -47,7 +47,9 @@ exports.create = async (req, res) => {
     await user.save()
     // .then(console.log)
     // .catch((e) => console.error(e.message))
-    const response = await Link.findOne({ id: newLink._id }).exec()
+    const response = await Link.findOne({
+      _id: newLink._id,
+    }).exec()
     res.status(201).json(response)
   }
 }
