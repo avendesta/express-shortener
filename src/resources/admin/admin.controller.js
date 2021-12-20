@@ -4,38 +4,6 @@ const { sign, verify } = require("jsonwebtoken")
 
 // create a user in database from request body
 exports.create = async (req, res) => {
-  // signing a payload for dev use
-  const accessToken = sign(
-    {
-      email: "mily@johns.com",
-    },
-    "ThisIsMySecretToken"
-  )
-  console.info("secret", accessToken)
-  // authorization middleware -- begins
-  const bearer = req.headers.authorization
-
-  if (!bearer || !bearer.startsWith("Bearer ")) {
-    return res.status(401).end()
-  }
-
-  const token = bearer.split("Bearer ")[1].trim()
-  // console.log("Token:", token)
-  let payload
-  try {
-    payload = await verify(token, "ThisIsMySecretToken")
-  } catch (e) {
-    return res.status(401).json({ error: "Token not verified" })
-  }
-  // authorization middleware -- ends
-  // is admin
-  if (payload.admin != true) {
-    return res
-      .status(666)
-      .json({ error: "Not authorized: Only admins can read all users" })
-  }
-  //
-
   const data = {
     _id: new mongoose.Types.ObjectId(),
     email: req.body.email,
@@ -83,4 +51,35 @@ exports.read = async (req, res) => {
 
   const allUsers = await User.find({}).exec()
   res.json(allUsers)
+}
+
+// read one user from database
+exports.readOne = async (req, res) => {
+  // authorization middleware -- begins
+  const bearer = req.headers.authorization
+
+  if (!bearer || !bearer.startsWith("Bearer ")) {
+    return res.status(401).end()
+  }
+
+  const token = bearer.split("Bearer ")[1].trim()
+  // console.log("Token:", token)
+  let payload
+  try {
+    payload = await verify(token, "ThisIsMySecretToken")
+  } catch (e) {
+    return res.status(401).json({ error: "Token not verified" })
+  }
+  // authorization middleware -- ends
+  // is admin
+  if (payload.admin != true) {
+    return res.status(666).json({ error: "Not authorized" })
+  }
+  //
+  const userId = req.params.userId // validation required!
+  const theUser = await User.findById(userId).exec()
+  if (!theUser) {
+    return res.status(666).json({ error: "User not found" })
+  }
+  res.json(theUser)
 }

@@ -3,12 +3,14 @@ process.env.NODE_ENV = "test"
 
 const { expect } = require("chai")
 //Require the dev-dependencies
-let chai = require("chai")
-let chaiHttp = require("chai-http")
-let server = require("../app")
+const chai = require("chai")
+const chaiHttp = require("chai-http")
+const server = require("../app")
 const { User } = require("../resources/user/user.model")
 const { Link } = require("../resources/link/link.model")
-let should = chai.should()
+const config = require("./lib/config")
+
+const should = chai.should()
 
 chai.use(chaiHttp)
 
@@ -44,8 +46,7 @@ describe("users", () => {
    * Test the GET admin/users route with empty database
    */
   describe("/GET admin/users", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
+    const token = config.token1
     it("it should be an empty array", (done) => {
       chai
         .request(server)
@@ -64,8 +65,7 @@ describe("users", () => {
    */
   describe("/POST /admin/users", () => {
     const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd" }
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
+    const token = config.token1
     it("it should add the a new user object to database", (done) => {
       chai
         .request(server)
@@ -86,8 +86,7 @@ describe("users", () => {
    * Test the GET admin/users route
    */
   describe("/GET /admin/users", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
+    const token = config.token1
     it("it should be an array with a single user object", (done) => {
       chai
         .request(server)
@@ -135,15 +134,14 @@ describe("links", () => {
   })
 
   /*
-   * Test the GET /links route with empty database
+   * Test the GET /admin/links route with empty database
    */
-  describe("/GET /links", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwicGFzc3dvcmQiOiJvbmVIYXNQQGFzc3cwcmQiLCJpYXQiOjE2Mzk5NzAzNDJ9.uDtc9_UkCphGxP3jwOk3x6yeLkWNy-lyIiAKULYuMSU"
+  describe("/GET /admin/links", () => {
+    const token = config.token2
     it("it should be an empty array", (done) => {
       chai
         .request(server)
-        .get("/links")
+        .get("/admin/links")
         .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200)
@@ -154,21 +152,20 @@ describe("links", () => {
     })
   })
   /*
-   * Test the POST /links route
+   * Test the POST /admin/links route
    */
-  describe("/POST /links", async () => {
+  describe("/POST /admin/links", async () => {
     const l1 = {
       shortUrl: "ABCDEF",
       longUrl: "https://www.google.com/search?q=robots",
       email: "five@gmail.com",
       // createdBy: await User.findOne().exec(),
     }
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwiaWF0IjoxNjM5OTY5MDUwfQ.a7W85YegMwJBJjH3JJ42emoRTZ61ENIvHriff3VSvFk"
+    const token = config.token3
     it("it should add the a new link object to database", (done) => {
       chai
         .request(server)
-        .post("/links")
+        .post("/admin/links")
         .set({ Authorization: `Bearer ${token}` })
         .send(l1)
         .end((err, res) => {
@@ -183,15 +180,14 @@ describe("links", () => {
     })
   })
   /*
-   * Test the GET /links route
+   * Test the GET /admin/links route
    */
-  describe("/GET /links", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwiaWF0IjoxNjM5OTY5MDUwfQ.a7W85YegMwJBJjH3JJ42emoRTZ61ENIvHriff3VSvFk"
+  describe("/GET /admin/links", () => {
+    const token = config.token3
     it("it should be an array with a single link object", (done) => {
       chai
         .request(server)
-        .get("/links")
+        .get("/admin/links")
         .set({ Authorization: `Bearer ${token}` })
         .end((err, res) => {
           res.should.have.status(200)

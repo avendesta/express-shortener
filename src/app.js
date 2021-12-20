@@ -26,8 +26,8 @@ mongoose.connect(config.dbURL)
 
 // routes
 app.use("/admin", adminRouter)
-app.use("/users", userRouter)
-app.use("/links", linkRouter)
+app.use("/user", userRouter)
+app.use("/admin/links", linkRouter)
 app.use("/clicks", clickRouter)
 
 app.get("/", (req, res) => {
