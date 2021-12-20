@@ -62,7 +62,7 @@ describe("users", () => {
   describe("/POST /users", () => {
     const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd" }
     const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwicGFzc3dvcmQiOiJvbmVIYXNQQGFzc3cwcmQiLCJpYXQiOjE2Mzk5NzAzNDJ9.uDtc9_UkCphGxP3jwOk3x6yeLkWNy-lyIiAKULYuMSU"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
     it("it should add the a new user object to database", (done) => {
       chai
         .request(server)
