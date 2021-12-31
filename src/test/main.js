@@ -1,3 +1,4 @@
+const config = require("./lib/config")
 //During the test the env variable is set to test
 process.env.NODE_ENV = "test"
 
@@ -44,8 +45,7 @@ describe("users", () => {
    * Test the GET /users route with empty database
    */
   describe("/GET /users", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
+    const token = config.tokens[0]
     it("it should be an empty array", (done) => {
       chai
         .request(server)
@@ -64,8 +64,7 @@ describe("users", () => {
    */
   describe("/POST /users", () => {
     const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd" }
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
+    const token = config.tokens[0]
     it("it should add the a new user object to database", (done) => {
       chai
         .request(server)
@@ -86,8 +85,7 @@ describe("users", () => {
    * Test the GET /users route
    */
   describe("/GET /users", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG8"
+    const token = config.tokens[0]
     it("it should be an array with a single user object", (done) => {
       chai
         .request(server)
@@ -138,8 +136,7 @@ describe("links", () => {
    * Test the GET /links route with empty database
    */
   describe("/GET /links", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwicGFzc3dvcmQiOiJvbmVIYXNQQGFzc3cwcmQiLCJpYXQiOjE2Mzk5NzAzNDJ9.uDtc9_UkCphGxP3jwOk3x6yeLkWNy-lyIiAKULYuMSU"
+    const token = config.tokens[1]
     it("it should be an empty array", (done) => {
       chai
         .request(server)
@@ -163,8 +160,7 @@ describe("links", () => {
       email: "five@gmail.com",
       // createdBy: await User.findOne().exec(),
     }
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwiaWF0IjoxNjM5OTY5MDUwfQ.a7W85YegMwJBJjH3JJ42emoRTZ61ENIvHriff3VSvFk"
+    const token = config.tokens[1]
     it("it should add the a new link object to database", (done) => {
       chai
         .request(server)
@@ -186,8 +182,7 @@ describe("links", () => {
    * Test the GET /links route
    */
   describe("/GET /links", () => {
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwiaWF0IjoxNjM5OTY5MDUwfQ.a7W85YegMwJBJjH3JJ42emoRTZ61ENIvHriff3VSvFk"
+    const token = config.tokens[1]
     it("it should be an array with a single link object", (done) => {
       chai
         .request(server)
