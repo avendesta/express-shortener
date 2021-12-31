@@ -5,4 +5,6 @@ exports.tokens = [
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImZpdmVAZ21haWwuY29tIiwiaWF0IjoxNjM5OTY5MDUwfQ.a7W85YegMwJBJjH3JJ42emoRTZ61ENIvHriff3VSvFk",
 ]
 
-exports.invalid_tokens = []
+exports.invalid_tokens = [
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZW1haWwiOiJtaWx5QGpvaG5zLmNvbSIsImlhdCI6MTYzOTk4MTM0NH0.m3GvyPpu5U7dvrvE21VendQbgLdHYLs4S9Nqsv_OrG9",
+]

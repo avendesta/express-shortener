@@ -82,6 +82,26 @@ describe("users", () => {
     })
   })
   /*
+   * Test the POST /users route with invalid jwt token
+   */
+  describe("/POST /users", () => {
+    const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd" }
+    const token = config.invalid_tokens[0]
+    it("it should add the a new user object to database", (done) => {
+      chai
+        .request(server)
+        .post("/users")
+        .set({ Authorization: `Bearer ${token}` })
+        .send(u1)
+        .end((err, res) => {
+          if (err) done(err)
+          res.should.have.status(401)
+          res.body.should.have.own.property("error")
+          done()
+        })
+    })
+  })
+  /*
    * Test the GET /users route
    */
   describe("/GET /users", () => {
