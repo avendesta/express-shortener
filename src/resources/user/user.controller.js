@@ -2,41 +2,10 @@ const mongoose = require("mongoose")
 const { User } = require("./user.model")
 const { Link } = require("./../link/link.model")
 const { sign, verify } = require("jsonwebtoken")
+const { secretKey } = require("../../config")
 
 // create a user in database from request body
 exports.create = async (req, res) => {
-  // signing a payload for dev use
-  const accessToken = sign(
-    {
-      email: "mily@johns.com",
-    },
-    "ThisIsMySecretToken"
-  )
-  console.info("secret", accessToken)
-  // authorization middleware -- begins
-  const bearer = req.headers.authorization
-
-  if (!bearer || !bearer.startsWith("Bearer ")) {
-    return res.status(401).end()
-  }
-
-  const token = bearer.split("Bearer ")[1].trim()
-  // console.log("Token:", token)
-  let payload
-  try {
-    payload = await verify(token, "ThisIsMySecretToken")
-  } catch (e) {
-    return res.status(401).json({ error: "Token not verified" })
-  }
-  // authorization middleware -- ends
-  // is admin
-  if (payload.admin != true) {
-    return res
-      .status(666)
-      .json({ error: "Not authorized: Only admins can read all users" })
-  }
-  //
-
   const data = {
     _id: new mongoose.Types.ObjectId(),
     email: req.body.email,
@@ -58,30 +27,6 @@ exports.create = async (req, res) => {
 
 // read all users from database
 exports.read = async (req, res) => {
-  // authorization middleware -- begins
-  const bearer = req.headers.authorization
-
-  if (!bearer || !bearer.startsWith("Bearer ")) {
-    return res.status(401).end()
-  }
-
-  const token = bearer.split("Bearer ")[1].trim()
-  // console.log("Token:", token)
-  let payload
-  try {
-    payload = await verify(token, "ThisIsMySecretToken")
-  } catch (e) {
-    return res.status(401).json({ error: "Token not verified" })
-  }
-  // authorization middleware -- ends
-  // is admin
-  if (payload.admin != true) {
-    return res
-      .status(666)
-      .json({ error: "Not authorized: Only admins can read all users" })
-  }
-  //
-
   const allUsers = await User.find({}).exec()
   res.json(allUsers)
 }

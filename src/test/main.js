@@ -84,7 +84,7 @@ describe("users", () => {
   /*
    * Test the POST /users route with invalid jwt token
    */
-  describe("/POST /users", () => {
+  describe("/POST /users with invalid token", () => {
     const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd" }
     const token = config.invalid_tokens[0]
     it("it should add the a new user object to database", (done) => {

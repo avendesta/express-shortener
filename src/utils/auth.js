@@ -1,6 +1,15 @@
 const { secretKey } = require("../config")
-// Admin authorization
-exports.adminAuth = async (req, res, next) => {
+const { sign, verify } = require("jsonwebtoken")
+
+exports.protect = async (req, res, next) => {
+  //   signing a payload for dev use
+  const accessToken = sign(
+    {
+      email: "mily@johns.com",
+    },
+    secretKey
+  )
+  console.info("secret", accessToken)
   // authorization middleware -- begins
   const bearer = req.headers.authorization
 
@@ -17,11 +26,17 @@ exports.adminAuth = async (req, res, next) => {
     return res.status(401).json({ error: "Token not verified" })
   }
   // authorization middleware -- ends
+  req.payload = payload
+  next()
+}
+// Admin authorization
+exports.adminAuth = async (req, res, next) => {
+  let payload = req.payload
   // is admin
   if (payload.admin != true) {
     return res
       .status(666)
-      .json({ error: "Not authorized: Only admins can read all users" })
+      .json({ error: "Not authorized: Only admins have access" })
   }
   //
   next()
