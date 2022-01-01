@@ -1,5 +1,6 @@
 const { secretKey } = require("../config")
 const { sign, verify } = require("jsonwebtoken")
+const { User } = require("../resources/user/user.model")
 
 exports.protect = async (req, res, next) => {
   //   signing a payload for dev use
@@ -9,7 +10,7 @@ exports.protect = async (req, res, next) => {
     },
     secretKey
   )
-  console.info("secret", accessToken)
+  // console.info("secret", accessToken)
   // authorization middleware -- begins
   const bearer = req.headers.authorization
 
@@ -44,22 +45,7 @@ exports.adminAuth = async (req, res, next) => {
 
 // User authorization
 exports.userAuth = async (req, res, next) => {
-  // authorization middleware -- begins
-  const bearer = req.headers.authorization
-
-  if (!bearer || !bearer.startsWith("Bearer ")) {
-    return res.status(401).end()
-  }
-
-  const token = bearer.split("Bearer ")[1].trim()
-  // console.log("Token:", token)
-  let payload
-  try {
-    payload = await verify(token, secretKey)
-  } catch (e) {
-    return res.status(401).json({ error: "Token not verified" })
-  }
-  // authorization middleware -- ends
+  let payload = req.payload
   // user exists
   if (!payload.email) {
     return res.status(666).json({ error: "Token doesn't have email info" })

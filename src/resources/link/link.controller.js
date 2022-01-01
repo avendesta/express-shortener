@@ -5,31 +5,7 @@ const { sign, verify } = require("jsonwebtoken")
 
 // create a link in database from request body
 exports.create = async (req, res) => {
-  // signing a payload for dev use
-  const accessToken = sign(
-    {
-      email: "five@gmail.com",
-      password: "oneHasP@assw0rd",
-    },
-    "ThisIsMySecretToken"
-  )
-  // console.info("secret", accessToken)
-
-  // verifying the user creating a link
-  const bearer = req.headers.authorization
-
-  if (!bearer || !bearer.startsWith("Bearer ")) {
-    return res.status(401).end()
-  }
-
-  const token = bearer.split("Bearer ")[1].trim()
-  // console.log("Token:", token)
-  let payload
-  try {
-    payload = await verify(token, "ThisIsMySecretToken")
-  } catch (e) {
-    return res.status(401).json({ error: "Token not verified" })
-  }
+  let payload = req.payload
 
   // other stuff
   const data = {
@@ -45,8 +21,7 @@ exports.create = async (req, res) => {
     await newLink.save()
     await user.links.push(newLink)
     await user.save()
-    // .then(console.log)
-    // .catch((e) => console.error(e.message))
+
     const response = await Link.findOne({
       _id: newLink._id,
     }).exec()
@@ -56,23 +31,7 @@ exports.create = async (req, res) => {
 
 // read all links from database
 exports.read = async (req, res) => {
-  // authorization middleware -- begins
-  const bearer = req.headers.authorization
-
-  if (!bearer || !bearer.startsWith("Bearer ")) {
-    return res.status(401).end()
-  }
-
-  const token = bearer.split("Bearer ")[1].trim()
-  // console.log("Token:", token)
-  let payload
-  try {
-    payload = await verify(token, "ThisIsMySecretToken")
-  } catch (e) {
-    return res.status(401).json({ error: "Token not verified" })
-  }
-  // authorization middleware -- begins
-
+  let payload = req.payload
   const allLinks = await Link.find({ email: payload.email }).exec()
   res.json(allLinks)
 }
