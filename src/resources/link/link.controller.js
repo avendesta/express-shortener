@@ -5,6 +5,14 @@ const { sign, verify } = require("jsonwebtoken")
 
 // create a link in database from request body
 exports.create = async (req, res) => {
+  const accessToken = sign(
+    {
+      email: "one@gmail.com",
+      password: "twoHasP@assw0rd",
+    },
+    "ThisIsMySecretToken"
+  )
+  // console.info("secret", accessToken)
   let payload = req.payload
   let user = req.user
 
@@ -15,29 +23,27 @@ exports.create = async (req, res) => {
     shortUrl: req.body.shortUrl,
   }
   // const user = await User.findOne({ email: payload.email }).exec()
-  if (!user) return res.status(666).json({ error: "User not found" })
-  else {
-    data.createdBy = user
-    const newLink = await new Link(data)
-    await newLink.save()
-    await user.links.push(newLink)
-    await user.save()
 
-    const response = await Link.findOne({
-      _id: newLink._id,
-    }).exec()
-    return res.status(201).json(response)
-  }
+  data.createdBy = user
+  const newLink = await new Link(data)
+  await newLink.save()
+  await user.links.push(newLink)
+  await user.save()
+
+  const response = await Link.findOne({
+    _id: newLink._id,
+  }).exec()
+  return res.status(201).json(response)
 }
 
 // read all links from database
 exports.read = async (req, res) => {
   let payload = req.payload
-  let user = req.user
-  if (user.admin) {
+  if (payload.admin == true) {
     const allLinks = await Link.find().exec()
     return res.json(allLinks)
   } else {
+    let user = req.user
     const userLinks = await Link.find({ createdBy: user._id }).exec()
     return res.json(userLinks)
   }

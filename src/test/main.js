@@ -230,7 +230,7 @@ describe("links", () => {
       longUrl:
         "https://stackoverflow.com/questions/37314598/in-express-js-why-does-code-after-res-json-still-execute",
     }
-    const token = config.tokens[1]
+    const token = config.tokens[3]
     it("it should add a second link object to database", (done) => {
       chai
         .request(server)
@@ -250,11 +250,33 @@ describe("links", () => {
   })
 
   /*
-   * Test the GET /links route
+   * Test the GET /links route when user is not admin
    */
   describe("/GET /links", () => {
     const token = config.tokens[1]
-    it("it should be an array with a single link object", (done) => {
+    it("it should be an array with a single link objects", (done) => {
+      chai
+        .request(server)
+        .get("/links")
+        .set({ Authorization: `Bearer ${token}` })
+        .end((err, res) => {
+          res.should.have.status(200)
+          res.body.should.be.a("array")
+          res.body.length.should.be.eql(1)
+          res.body[0].should.have.own.property("shortUrl")
+          res.body[0].should.have.own.property("longUrl")
+          res.body[0].should.have.own.property("createdBy")
+          res.body[0].should.have.own.property("createdAt")
+          done()
+        })
+    })
+  })
+  /*
+   * Test the GET /links route when user is admin
+   */
+  describe("/GET /links", () => {
+    const token = config.tokens[0]
+    it("it should be an array with two link objects", (done) => {
       chai
         .request(server)
         .get("/links")
