@@ -2,15 +2,14 @@ const mongoose = require("mongoose")
 
 const userSchema = new mongoose.Schema(
   {
-    email: String,
-    password: String,
+    email: { type: String, required: true },
+    password: { type: String, required: true },
     admin: { type: mongoose.SchemaTypes.Boolean, default: false },
     premium: { type: mongoose.SchemaTypes.Boolean, default: false },
     links: [
       {
         type: mongoose.SchemaTypes.ObjectId,
         ref: "Link",
-        required: false,
         default: [],
       },
     ],
