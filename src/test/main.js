@@ -82,6 +82,28 @@ describe("users", () => {
     })
   })
   /*
+   * Test the POST /users route, creating a second user
+   */
+  describe("/POST /users", () => {
+    const u1 = { email: "two@gmail.com", password: "twoHasP@assw0rd" }
+    const token = config.tokens[0]
+    it("it should add the a second user object to database", (done) => {
+      chai
+        .request(server)
+        .post("/users")
+        .set({ Authorization: `Bearer ${token}` })
+        .send(u1)
+        .end((err, res) => {
+          if (err) done(err)
+          res.should.have.status(201)
+          res.body.should.have.own.property("email")
+          res.body.should.have.own.property("password")
+          res.body.should.have.own.property("links")
+          done()
+        })
+    })
+  })
+  /*
    * Test the POST /users route with invalid jwt token
    */
   describe("/POST /users with invalid token", () => {
@@ -114,10 +136,13 @@ describe("users", () => {
         .end((err, res) => {
           res.should.have.status(200)
           res.body.should.be.a("array")
-          res.body.length.should.be.eql(1)
+          res.body.length.should.be.eql(2)
           res.body[0].should.have.own.property("email")
           res.body[0].should.have.own.property("password")
           res.body[0].should.have.own.property("links")
+          res.body[1].should.have.own.property("email")
+          res.body[1].should.have.own.property("password")
+          res.body[1].should.have.own.property("links")
           done()
         })
     })
@@ -177,8 +202,6 @@ describe("links", () => {
     const l1 = {
       shortUrl: "ABCDEF",
       longUrl: "https://www.google.com/search?q=robots",
-      email: "five@gmail.com",
-      // createdBy: await User.findOne().exec(),
     }
     const token = config.tokens[1]
     it("it should add the a new link object to database", (done) => {
@@ -199,6 +222,34 @@ describe("links", () => {
     })
   })
   /*
+   * Test the POST /links route, creating another link
+   */
+  describe("/POST /links", async () => {
+    const l1 = {
+      shortUrl: "A4K4KJ02L",
+      longUrl:
+        "https://stackoverflow.com/questions/37314598/in-express-js-why-does-code-after-res-json-still-execute",
+    }
+    const token = config.tokens[1]
+    it("it should add a second link object to database", (done) => {
+      chai
+        .request(server)
+        .post("/links")
+        .set({ Authorization: `Bearer ${token}` })
+        .send(l1)
+        .end((err, res) => {
+          if (err) done(err)
+          res.should.have.status(201)
+          res.body.should.have.own.property("shortUrl")
+          res.body.should.have.own.property("longUrl")
+          res.body.should.have.own.property("createdBy")
+          res.body.should.have.own.property("createdAt")
+          done()
+        })
+    })
+  })
+
+  /*
    * Test the GET /links route
    */
   describe("/GET /links", () => {
@@ -211,7 +262,7 @@ describe("links", () => {
         .end((err, res) => {
           res.should.have.status(200)
           res.body.should.be.a("array")
-          res.body.length.should.be.eql(1)
+          res.body.length.should.be.eql(2)
           res.body[0].should.have.own.property("shortUrl")
           res.body[0].should.have.own.property("longUrl")
           res.body[0].should.have.own.property("createdBy")

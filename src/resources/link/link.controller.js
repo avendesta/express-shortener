@@ -6,6 +6,7 @@ const { sign, verify } = require("jsonwebtoken")
 // create a link in database from request body
 exports.create = async (req, res) => {
   let payload = req.payload
+  let user = req.user
 
   // other stuff
   const data = {
@@ -13,7 +14,7 @@ exports.create = async (req, res) => {
     longUrl: req.body.longUrl,
     shortUrl: req.body.shortUrl,
   }
-  const user = await User.findOne({ email: payload.email }).exec()
+  // const user = await User.findOne({ email: payload.email }).exec()
   if (!user) return res.status(666).json({ error: "User not found" })
   else {
     data.createdBy = user
