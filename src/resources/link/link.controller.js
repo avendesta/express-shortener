@@ -5,16 +5,10 @@ const { sign, verify } = require("jsonwebtoken")
 
 // create a link in database from request body
 exports.create = async (req, res) => {
-  const accessToken = sign(
-    {
-      email: "one@gmail.com",
-      password: "twoHasP@assw0rd",
-    },
-    "ThisIsMySecretToken"
-  )
-  // console.info("secret", accessToken)
-  let payload = req.payload
-  let user = req.user
+  const payload = req.payload
+  const user = req.user
+  console.log("inside create link")
+  console.log(user)
 
   // other stuff
   const data = {
@@ -22,7 +16,6 @@ exports.create = async (req, res) => {
     longUrl: req.body.longUrl,
     shortUrl: req.body.shortUrl,
   }
-  // const user = await User.findOne({ email: payload.email }).exec()
 
   data.createdBy = user
   const newLink = await new Link(data)

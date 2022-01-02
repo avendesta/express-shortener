@@ -60,7 +60,34 @@ describe("users", () => {
     })
   })
   /*
-   * Test the POST /users route
+   * Test the POST /users route, creating an admin
+   */
+  describe("/POST /users", () => {
+    const u1 = {
+      email: "admin@admin.admin",
+      password: "admin's strong password",
+      admin: true,
+    }
+    const token = config.tokens[0]
+    it("it should add a new admin user object to database", (done) => {
+      chai
+        .request(server)
+        .post("/users")
+        .set({ Authorization: `Bearer ${token}` })
+        .send(u1)
+        .end((err, res) => {
+          if (err) done(err)
+          res.should.have.status(201)
+          res.body.should.have.own.property("email")
+          res.body.should.have.own.property("password")
+          res.body.should.have.own.property("links")
+          done()
+        })
+    })
+  })
+
+  /*
+   * Test the POST /users route, a normal user
    */
   describe("/POST /users", () => {
     const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd" }
@@ -82,12 +109,12 @@ describe("users", () => {
     })
   })
   /*
-   * Test the POST /users route, creating a second user
+   * Test the POST /users route, creating a second non-admin user
    */
   describe("/POST /users", () => {
     const u1 = { email: "two@gmail.com", password: "twoHasP@assw0rd" }
     const token = config.tokens[0]
-    it("it should add the a second user object to database", (done) => {
+    it("it should add the a second non-admin user object to database", (done) => {
       chai
         .request(server)
         .post("/users")
@@ -136,13 +163,16 @@ describe("users", () => {
         .end((err, res) => {
           res.should.have.status(200)
           res.body.should.be.a("array")
-          res.body.length.should.be.eql(2)
+          res.body.length.should.be.eql(3)
           res.body[0].should.have.own.property("email")
           res.body[0].should.have.own.property("password")
           res.body[0].should.have.own.property("links")
           res.body[1].should.have.own.property("email")
           res.body[1].should.have.own.property("password")
           res.body[1].should.have.own.property("links")
+          res.body[2].should.have.own.property("email")
+          res.body[2].should.have.own.property("password")
+          res.body[2].should.have.own.property("links")
           done()
         })
     })
