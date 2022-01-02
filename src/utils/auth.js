@@ -15,7 +15,7 @@ exports.protect = async (req, res, next) => {
   const bearer = req.headers.authorization
 
   if (!bearer || !bearer.startsWith("Bearer ")) {
-    return res.status(401).end()
+    return res.status(401).json({ error: "Bearer token required" })
   }
 
   const token = bearer.split("Bearer ")[1].trim()
@@ -51,7 +51,9 @@ exports.userAuth = async (req, res, next) => {
     return res.status(666).json({ error: "Token doesn't have email info" })
   }
   const theUser = await User.findOne({ email: payload.email }).exec()
-  if (!theUser) res.status(666).json({ error: "User not found!" })
+  if (theUser == null) {
+    return res.status(444).json({ error: "User not found!" })
+  }
   //
   req.user = theUser
   next()
