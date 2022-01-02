@@ -7,8 +7,6 @@ const { sign, verify } = require("jsonwebtoken")
 exports.create = async (req, res) => {
   const payload = req.payload
   const user = req.user
-  console.log("inside create link")
-  console.log(user)
 
   // other stuff
   const data = {

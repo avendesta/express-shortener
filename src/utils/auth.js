@@ -4,14 +4,14 @@ const { User } = require("../resources/user/user.model")
 
 exports.protect = async (req, res, next) => {
   //   signing a payload for dev use
-  const accessToken = sign(
-    {
-      admin: true,
-      email: "admin@admin.admin",
-    },
-    secretKey
-  )
-  console.info("secret", accessToken)
+  // const accessToken = sign(
+  //   {
+  //     admin: true,
+  //     email: "admin@admin.admin",
+  //   },
+  //   secretKey
+  // )
+  // console.info("secret", accessToken)
   // authorization middleware -- begins
   const bearer = req.headers.authorization
 
@@ -33,7 +33,7 @@ exports.protect = async (req, res, next) => {
 }
 // Admin authorization
 exports.adminAuth = async (req, res, next) => {
-  let payload = req.payload
+  const payload = req.payload
   // is admin
   if (payload.admin != true) {
     return res
