@@ -6,11 +6,12 @@ exports.protect = async (req, res, next) => {
   //   signing a payload for dev use
   const accessToken = sign(
     {
-      email: "mily@johns.com",
+      admin: true,
+      email: "admin@admin.admin",
     },
     secretKey
   )
-  // console.info("secret", accessToken)
+  console.info("secret", accessToken)
   // authorization middleware -- begins
   const bearer = req.headers.authorization
 
