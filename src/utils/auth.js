@@ -2,6 +2,23 @@ const { secretKey } = require("../config")
 const { sign, verify } = require("jsonwebtoken")
 const { User } = require("../resources/user/user.model")
 
+exports.signIn = async (req, res) => {
+  if (!req.body.email || !req.body.password)
+    return res
+      .status(456)
+      .json({ error: "You need to provide email and password!" })
+  const user = await User.findOne({
+    email: req.body.email,
+    password: req.body.password,
+  }).exec()
+  if (!user)
+    return res.status(443).json({ error: "Incorrect email or password" })
+  console.log("user", user)
+  const token = await sign({ email: req.body.email }, secretKey)
+  console.info("your token is: ", token)
+  return res.json({ token: token })
+}
+
 exports.protect = async (req, res, next) => {
   //   signing a payload for dev use
   // const accessToken = sign(

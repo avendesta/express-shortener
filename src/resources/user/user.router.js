@@ -1,7 +1,8 @@
 const router = require("express").Router()
 const controller = require("./user.controller")
-const { protect, adminAuth } = require("../../utils/auth")
+const { protect, adminAuth, signIn } = require("../../utils/auth")
 
+router.post("/login", signIn)
 router.use("/", protect)
 router.use("/", adminAuth)
 router.post("/", controller.create)
