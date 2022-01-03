@@ -14,22 +14,14 @@ exports.signIn = async (req, res) => {
   if (!user)
     return res.status(443).json({ error: "Incorrect email or password" })
   console.log("user", user)
-  const token = await sign({ email: req.body.email }, secretKey)
+  const token = await sign({ email: req.body.email }, secretKey, {
+    expiresIn: "120s",
+  })
   console.info("your token is: ", token)
   return res.json({ token: token })
 }
 
 exports.protect = async (req, res, next) => {
-  //   signing a payload for dev use
-  // const accessToken = sign(
-  //   {
-  //     admin: true,
-  //     email: "admin@admin.admin",
-  //   },
-  //   secretKey
-  // )
-  // console.info("secret", accessToken)
-  // authorization middleware -- begins
   const bearer = req.headers.authorization
 
   if (!bearer || !bearer.startsWith("Bearer ")) {
@@ -42,7 +34,7 @@ exports.protect = async (req, res, next) => {
   try {
     payload = await verify(token, secretKey)
   } catch (e) {
-    return res.status(401).json({ error: "Token not verified" })
+    return res.status(401).json({ error: "Incorrect or expired token" })
   }
   // authorization middleware -- ends
   req.payload = payload
