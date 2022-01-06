@@ -56,10 +56,6 @@ exports.adminAuth = async (req, res, next) => {
 // User authorization
 exports.userAuth = async (req, res, next) => {
   let payload = req.payload
-  // console.log(payload)
-  // user is admin
-  // if (payload.admin == true) return next()
-  // user exists
   if (!payload.email) {
     return res.status(666).json({ error: "Token doesn't have email info" })
   }

@@ -6,6 +6,10 @@ const { secretKey } = require("../../config")
 
 // create a user in database from request body
 exports.create = async (req, res) => {
+  if (!req.body.email || !req.body.password)
+    return res
+      .status(456)
+      .json({ error: "You need to provide email and password!" })
   const data = {
     _id: new mongoose.Types.ObjectId(),
     email: req.body.email,

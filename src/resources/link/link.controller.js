@@ -2,12 +2,16 @@ const mongoose = require("mongoose")
 const { Link } = require("./link.model")
 const { User } = require("../user/user.model")
 const { sign, verify } = require("jsonwebtoken")
+const { body, validationResult } = require("express-validator")
 
 // create a link in database from request body
 exports.create = async (req, res) => {
   const payload = req.payload
   const user = req.user
-
+  if (!req.body.longUrl || !req.body.shortUrl)
+    return res
+      .status(456)
+      .json({ error: "You need to provide 'longUrl' and 'shortUrl'!" })
   // other stuff
   const data = {
     _id: new mongoose.Types.ObjectId(),
