@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const linkSchema = new mongoose.Schema(
   {
     longUrl: String,
-    shortUrl: String,
+    shortUrl: { type: String, unique: true },
     createdBy: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "user",

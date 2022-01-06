@@ -14,7 +14,11 @@ exports.create = async (req, res) => {
     longUrl: req.body.longUrl,
     shortUrl: req.body.shortUrl,
   }
-
+  const link = await Link.findOne({ shortUrl: req.body.shortUrl }).exec()
+  if (link)
+    return res
+      .status(409)
+      .json({ error: "Short Link already exists in database!" })
   data.createdBy = user
   const newLink = await new Link(data)
   await newLink.save()

@@ -15,14 +15,11 @@ exports.create = async (req, res) => {
   }
   const newUser = await new User(data)
   const user = await User.findOne({ email: req.body.email }).exec()
-  if (user) res.status(409).json({ error: "User already exists in database!" })
-  else {
-    await newUser.save()
-    // .then(console.log)
-    // .catch((e) => console.error(e.message))
-    const response = await User.findOne({ _id: newUser._id }).exec()
-    res.status(201).json(response)
-  }
+  if (user)
+    return res.status(409).json({ error: "User already exists in database!" })
+  await newUser.save()
+  const response = await User.findOne({ _id: newUser._id }).exec()
+  return res.status(201).json(response)
 }
 
 // read all users from database
