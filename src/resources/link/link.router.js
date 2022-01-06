@@ -5,6 +5,6 @@ const controller = require("./link.controller")
 router.use("/", protect)
 router.all("/", userAuth)
 router.get("/", controller.read)
-router.post("/", controller.create)
+router.post("/", [controller.validateCreate], controller.create)
 
 module.exports = router

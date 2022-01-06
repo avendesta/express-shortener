@@ -280,6 +280,55 @@ describe("links", () => {
   })
 
   /*
+   * Test the POST /links route, trying to create link where the longUrl is incorrect format
+   */
+  describe("/POST /links", async () => {
+    const l1 = {
+      shortUrl: "A4K4KJ02L",
+      longUrl:
+        "stackoverflow/questions/37314598/in-express-js-why-does-code-after-res-json-still-execute",
+    }
+    const token = config.tokens[3]
+    it("it should respond with error", (done) => {
+      chai
+        .request(server)
+        .post("/links")
+        .set({ Authorization: `Bearer ${token}` })
+        .send(l1)
+        .end((err, res) => {
+          if (err) done(err)
+          res.should.have.status(343)
+          res.body.should.have.own.property("error")
+          done()
+        })
+    })
+  })
+  /*
+   * Test the POST /links route, trying to create link where the shortUrl is incorrect format
+   */
+  describe("/POST /links", async () => {
+    const l1 = {
+      shortUrl: "A4K4K-^",
+      longUrl:
+        "https://stackoverflow.com/questions/37314598/in-express-js-why-does-code-after-res-json-still-execute",
+    }
+    const token = config.tokens[3]
+    it("it should respond with error", (done) => {
+      chai
+        .request(server)
+        .post("/links")
+        .set({ Authorization: `Bearer ${token}` })
+        .send(l1)
+        .end((err, res) => {
+          if (err) done(err)
+          res.should.have.status(434)
+          res.body.should.have.own.property("error")
+          done()
+        })
+    })
+  })
+
+  /*
    * Test the GET /links route when user is not admin
    */
   describe("/GET /links", () => {

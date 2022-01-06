@@ -2,16 +2,29 @@ const mongoose = require("mongoose")
 const { Link } = require("./link.model")
 const { User } = require("../user/user.model")
 const { sign, verify } = require("jsonwebtoken")
-const { body, validationResult } = require("express-validator")
+const validator = require("validator")
 
-// create a link in database from request body
-exports.create = async (req, res) => {
-  const payload = req.payload
-  const user = req.user
+// validate request body before creating a new link
+exports.validateCreate = async (req, res, next) => {
   if (!req.body.longUrl || !req.body.shortUrl)
     return res
       .status(456)
       .json({ error: "You need to provide 'longUrl' and 'shortUrl'!" })
+  if (!validator.isURL(req.body.longUrl))
+    return res.status(343).json({ error: "'longUrl' must be a valid URL" })
+  if (!validator.isAlphanumeric(req.body.shortUrl))
+    return res.status(434).json({ error: "'shortUrl' should be alphanumeric" })
+  if (!validator.isLength(req.body.shortUrl, { min: 5 }))
+    return res
+      .status(434)
+      .json({ error: "'shortUrl' should have at least 5 characters" })
+  next()
+}
+// create a link in database from request body
+exports.create = async (req, res) => {
+  const payload = req.payload
+  const user = req.user
+
   // other stuff
   const data = {
     _id: new mongoose.Types.ObjectId(),
