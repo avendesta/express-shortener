@@ -1,6 +1,7 @@
 const { secretKey } = require("../config")
 const { sign, verify } = require("jsonwebtoken")
 const { User } = require("../resources/user/user.model")
+const bcrypt = require("bcrypt")
 
 exports.signIn = async (req, res) => {
   if (!req.body.email || !req.body.password)
@@ -9,9 +10,13 @@ exports.signIn = async (req, res) => {
       .json({ error: "You need to provide email and password!" })
   const user = await User.findOne({
     email: req.body.email,
-    password: req.body.password,
   }).exec()
+  console.info(user)
+  console.info(user.password)
   if (!user)
+    return res.status(443).json({ error: "Incorrect email or password" })
+  // this one needs a try/catch block
+  if (!(await bcrypt.compare(req.body.password, user.password)))
     return res.status(443).json({ error: "Incorrect email or password" })
   console.log("user", user)
   const token = await sign({ email: req.body.email }, secretKey, {

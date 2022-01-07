@@ -39,8 +39,9 @@ exports.create = async (req, res) => {
   data.createdBy = user
   const newLink = await new Link(data)
   await newLink.save()
-  await user.links.push(newLink)
-  await user.save()
+  await user.update({}, { $addToSet: { links: [newLink] } })
+  // await user.links.push(newLink)
+  // await user.save()
 
   const response = await Link.findOne({
     _id: newLink._id,

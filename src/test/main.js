@@ -65,7 +65,7 @@ describe("users", () => {
   describe("/POST /users", () => {
     const u1 = {
       email: "admin@admin.admin",
-      password: "admin's strong password@ 32A-2",
+      password: "Admin@123Passw0rd",
       admin: true,
     }
     const token = config.tokens[0]
@@ -90,7 +90,10 @@ describe("users", () => {
    * Test the POST /users route, a normal user
    */
   describe("/POST /users", () => {
-    const u1 = { email: "five@gmail.com", password: "oneHasP@ass7w0rd" }
+    const u1 = {
+      email: "five@gmail.com",
+      password: "oneHasP@ass7w0rd",
+    }
     const token = config.tokens[0]
     it("it should add the a new user object to database", (done) => {
       chai
@@ -112,7 +115,7 @@ describe("users", () => {
    * Test the POST /users route, creating a second non-admin user
    */
   describe("/POST /users", () => {
-    const u1 = { email: "two@gmail.com", password: "twoHasP@assw0rd??" }
+    const u1 = { email: "two@gmail.com", password: "twoHasP@assw0rd" }
     const token = config.tokens[0]
     it("it should add the a second non-admin user object to database", (done) => {
       chai
