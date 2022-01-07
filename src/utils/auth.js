@@ -11,8 +11,6 @@ exports.signIn = async (req, res) => {
   const user = await User.findOne({
     email: req.body.email,
   }).exec()
-  console.info(user)
-  console.info(user.password)
   if (!user)
     return res.status(443).json({ error: "Incorrect email or password" })
   // this one needs a try/catch block
@@ -20,7 +18,7 @@ exports.signIn = async (req, res) => {
     return res.status(443).json({ error: "Incorrect email or password" })
   console.log("user", user)
   const token = await sign({ email: req.body.email }, secretKey, {
-    expiresIn: "120s",
+    // expiresIn: "120s",
   })
   console.info("your token is: ", token)
   return res.json({ token: token })

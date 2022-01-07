@@ -10,6 +10,7 @@ let server = require("../app")
 const { User } = require("../resources/user/user.model")
 const { Link } = require("../resources/link/link.model")
 let should = chai.should()
+let tokens = []
 
 chai.use(chaiHttp)
 
@@ -91,7 +92,7 @@ describe("users", () => {
    */
   describe("/POST /users", () => {
     const u1 = {
-      email: "five@gmail.com",
+      email: "one@gmail.com",
       password: "oneHasP@ass7w0rd",
     }
     const token = config.tokens[0]
@@ -137,7 +138,10 @@ describe("users", () => {
    * Test the POST /users route with invalid jwt token
    */
   describe("/POST /users with invalid token", () => {
-    const u1 = { email: "five@gmail.com", password: "oneHasP@assw0rd99" }
+    const u1 = {
+      email: "incorrect@gmail.com",
+      password: "incorrectHasP@ass7w0rd",
+    }
     const token = config.invalid_tokens[0]
     it("it should add the a new user object to database", (done) => {
       chai
@@ -149,6 +153,24 @@ describe("users", () => {
           if (err) done(err)
           res.should.have.status(401)
           res.body.should.have.own.property("error")
+          done()
+        })
+    })
+  })
+  /*
+   * Test the POST /users/login route
+   */
+  describe("/POST /users/login", () => {
+    const u1 = { email: "one@gmail.com", password: "oneHasP@ass7w0rd" }
+    it("it should return a valid jwt token", (done) => {
+      chai
+        .request(server)
+        .post("/users/login")
+        .send(u1)
+        .end((err, res) => {
+          if (err) done(err)
+          res.should.have.status(200)
+          res.body.should.have.own.property("token")
           done()
         })
     })
@@ -263,7 +285,7 @@ describe("links", () => {
       longUrl:
         "https://stackoverflow.com/questions/37314598/in-express-js-why-does-code-after-res-json-still-execute",
     }
-    const token = config.tokens[3]
+    const token = config.tokens[2]
     it("it should add a second link object to database", (done) => {
       chai
         .request(server)
@@ -291,7 +313,7 @@ describe("links", () => {
       longUrl:
         "stackoverflow/questions/37314598/in-express-js-why-does-code-after-res-json-still-execute",
     }
-    const token = config.tokens[3]
+    const token = config.tokens[2]
     it("it should respond with error", (done) => {
       chai
         .request(server)
@@ -315,7 +337,7 @@ describe("links", () => {
       longUrl:
         "https://stackoverflow.com/questions/37314598/in-express-js-why-does-code-after-res-json-still-execute",
     }
-    const token = config.tokens[3]
+    const token = config.tokens[2]
     it("it should respond with error", (done) => {
       chai
         .request(server)
